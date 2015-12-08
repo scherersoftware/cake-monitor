@@ -35,4 +35,4 @@ Add configuration to your `config/app.php`
 By default this plugin triggers a status check on all MySQL tables of the project.
 This behavior can be overwritten in app.php.
 
-Call http://<your-domain>/monitor to run the configured checks
+Call http://YOUR-DOMAIN/monitor to run the configured checks
