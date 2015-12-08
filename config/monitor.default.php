@@ -1,9 +1,9 @@
 <?php
-$config = [
+return [
     'CakeMonitor' => [
         'accessToken' => null,
         'projectName' => null,
-        'serverDescription' => env('SERVERDESCRIPTION'),
+        'serverDescription' => 'Server: ' . env('SERVERDESCRIPTION'),
         'onSuccess' => function() {
             die('CHECK-OK');
         },

@@ -43,7 +43,7 @@ class MonitorHandler
     public function __construct(Request $request, Response $response)
     {
         $this->_config = Configure::read('CakeMonitor');
-
+        debug($this->_config);
         $this->_validateConfig();
 
         $this->_request = $request;
