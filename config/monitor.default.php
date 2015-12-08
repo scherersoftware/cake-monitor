@@ -3,7 +3,6 @@ $config = [
     'CakeMonitor' => [
         'accessToken' => null,
         'projectName' => null,
-        'serverDescription' => null,
         'serverDescription' => env('SERVERDESCRIPTION'),
         'onSuccess' => function() {
             die('CHECK-OK');
