@@ -5,7 +5,8 @@ return [
         'projectName' => null,
         'serverDescription' => 'Server: ' . env('SERVERDESCRIPTION'),
         'onSuccess' => function() {
-            die('CHECK-OK');
+            echo 'CHECK-OK';
+            return;
         },
         'checks' => [
             'DATABASE' => [

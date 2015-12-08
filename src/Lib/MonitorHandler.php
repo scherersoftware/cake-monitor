@@ -20,18 +20,18 @@ class MonitorHandler
     protected $_config = [];
 
     /**
-     * Instance of the current request object
+     * Reference of the current request object
      * 
      * @var Cake\Network\Http\Request
      */
-    protected $_request;
+    public $request;
 
     /**
-     * Instance of the current response object
+     * Reference of the current response object
      * 
      * @var Cake\Network\Http\Response
      */
-    protected $_response;
+    public $response;
 
     /**
      * Constructor
@@ -40,14 +40,17 @@ class MonitorHandler
      * @param Response $response Current Response
      * @return void
      */
-    public function __construct(Request $request, Response $response)
+    public function __construct(Request &$request, Response &$response)
     {
         $this->_config = Configure::read('CakeMonitor');
         $this->_validateConfig();
 
-        $this->_request = $request;
-        $this->_response = $response;
+        $this->request =& $request;
+        $this->response =& $response;
+        
     }
+
+
 
     /**
      * Validates Config
@@ -71,7 +74,7 @@ class MonitorHandler
      */
     public function handleAuth()
     {
-        if ($this->_request->header('CAKEMONITORTOKEN') !==  $this->_config['accessToken']) {
+        if ($this->request->header('CAKEMONITORTOKEN') !==  $this->_config['accessToken']) {
             die('NOT AUTHENTICATED');
         }
     }
@@ -92,13 +95,15 @@ class MonitorHandler
             }
         }
         if (!empty($errors)) {
-            echo date('Y-m-d H:i:s') . ': ' . $this->_config['projectName'] . ' - ' . $this->_config['serverDescription'] . ' - Status Code: ' . $this->_response->statusCode() . '<br><br> ';
+
+            $this->response->statusCode(500);
+
+            echo date('Y-m-d H:i:s') . ': ' . $this->_config['projectName'] . ' - ' . $this->_config['serverDescription'] . ' - Status Code: ' . $this->response->statusCode() . '<br><br> ';
             foreach ($errors as $error) {
                 echo $error . '<br><br>';
             }
-            die();
+            return;
         }
         $this->_config['onSuccess']();
-        die();
     }
 }

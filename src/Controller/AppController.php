@@ -27,4 +27,8 @@ class AppController extends Controller
         $this->_monitor->handleChecks();
     }
 
+    public function render($view = false, $layout = false)
+    {
+        return parent::render($view, $layout);
+    }
 }
