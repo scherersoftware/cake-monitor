@@ -89,6 +89,9 @@ class MonitorHandler
     {
         $errors = [];
         foreach ($this->_config['checks'] as $name => $check) {
+            if (empty($check)) {
+                continue;
+            }
             $result = $check['callback']();
             if ($result !== true) {
                $errors[] = $name . ': <br>' . $check['error'] . ' - ' . $result;
