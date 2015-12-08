@@ -7,14 +7,14 @@
         "installer-name": "Monitor"
     },
     "require": {
-        "cakephp/plugin-installer": "*",
+        "cakephp/plugin-installer": "*"
     },
     "require-dev": {
         "cakephp/cakephp": "~3.0"
     },
     "autoload": {
         "psr-4": {
-        "Monitor\\": "src"
+            "Monitor\\": "src"
         }
     }
 }
