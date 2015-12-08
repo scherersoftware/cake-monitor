@@ -1,4 +1,4 @@
-# cake-monitor
+# Monitor plugin for CakePHP 3.0
 
 A simple config based monitoring plugin for CakePHP 3
 
@@ -20,7 +20,7 @@ Add configuration to your `config/app.php`
         'checks' => [
             'Name of Check' => [
                 'callback' => function() {
-                    if ($error = true) {
+                    if ($error == true) {
                         return 'Specific error message';
                     }
                     return true;

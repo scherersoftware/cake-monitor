@@ -13,20 +13,6 @@ class MonitorHandler
 {
 
     /**
-     * Default Config
-     * to extend this configuration add "CakeMonitor" => [config] to app.php
-     * 
-     * @var array
-     */
-    protected $_defaultConfig = [
-        'accessToken' => null,
-        'projectName' => null,
-        'serverDescription' => null,
-        'onSuccess' => null,
-        'checks' => null
-    ];
-
-    /**
      * Configuration that is used by the methods of this class
      * 
      * @var array
@@ -56,11 +42,8 @@ class MonitorHandler
      */
     public function __construct(Request $request, Response $response)
     {
-        $this->_config = $this->_defaultConfig;
+        $this->_config = Configure::read('CakeMonitor');
 
-        if (!empty(Configure::read('CakeMonitor'))) {
-            $this->_config = Hash::merge($this->_defaultConfig, Configure::read('CakeMonitor'));
-        }
         $this->_validateConfig();
 
         $this->_request = $request;
