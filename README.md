@@ -29,3 +29,10 @@ Add configuration to your `config/app.php`
             ]
         ]
     ]
+
+## Usage
+
+By default this plugin triggers a status check on all MySQL tables of the project.
+This behavior can be overwritten in app.php.
+
+Call http://<your-domain>/monitor to run the configured checks
