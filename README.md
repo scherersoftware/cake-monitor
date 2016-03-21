@@ -1,4 +1,5 @@
-# Monitor plugin for CakePHP 3.0
+CakePHP 3 cake-monitor
+======================
 
 A simple config based monitoring plugin for CakePHP 3
 
