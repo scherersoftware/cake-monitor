@@ -32,6 +32,11 @@ return [
                 },
                 'error' => 'MYSQL CHECK TABLE ERROR'
             ]
+        ],
+        'Sentry' => [
+            'enabled' => false,
+            'dsn' => null,
+            'sanitizeFields' => []
         ]
     ]
 ];

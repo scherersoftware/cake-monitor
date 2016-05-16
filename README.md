@@ -1,4 +1,4 @@
-#CakePHP 3 cake-monitor
+# CakePHP 3 cake-monitor
 
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.txt)
 
@@ -78,3 +78,55 @@ If every checking function executes without any exceptions, the `'onSuccess'` ca
 ## Call
 
 Run the current checks and see their output anytime by calling the following URL: `http://YOUR_PROJECT_URL.tld/monitor`
+
+## Sentry Error Reporting
+
+The plugin contains functionality to hook into CakePHP's error reporting and send exceptions to the excellent error reporting service [Sentry](https://getsentry.com/).
+
+### Configuration
+
+The `CakeMonitor` configuration section in your `app.php` must contain a `Sentry` key
+
+    'Sentry' => [
+        'enabled' => !Configure::read('debug'), # Boolean value to enable sentry error reporting
+        'dsn' => '', # The DSN for the Sentry project. You find this on the Sentry Project Settings Page.
+        'sanitizeFields' => [ # An array of fields, whose values will be removed before sending
+                              # data to sentry. Be sure to include fields like session cookie names, 
+                              # sensitive environment variables and other private configuration.
+            'password',
+            'rememberuser',
+            'auth_token',
+            'api_token',
+            'mysql_password',
+            'email_password',
+            'cookie'
+        ]
+    ]
+
+In your `bootstrap.php` you have to tell CakePHP which ErrorHandler to use. Please find the following section:
+
+    /**
+     * Register application error and exception handlers.
+     */
+    $isCli = PHP_SAPI === 'cli';
+    if ($isCli) {
+        (new ConsoleErrorHandler(Configure::read('Error')))->register();
+    } else {
+        (new ErrorHandler(Configure::read('Error')))->register();
+    }
+
+And modify it to look like this:
+
+    /**
+     * Register application error and exception handlers.
+     */
+    Plugin::load('Monitor', ['bootstrap' => true, 'routes' => true]); # important for loading and merging the configuration
+
+    $isCli = php_sapi_name() === 'cli';
+    if ($isCli) {
+        (new \Monitor\Error\ConsoleErrorHandler(Configure::consume('Error')))->register();
+    } else {
+        (new \Monitor\Error\ErrorHandler(Configure::consume('Error')))->register();
+    }    
+
+From now on, given that the configuration value `CakeMonitor.Sentry.enabled` is true, Errors and Exceptions are reported to Sentry without changing any of CakePHP's default ErrorHandler behavior.
