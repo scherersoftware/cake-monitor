@@ -14,28 +14,28 @@ class MonitorHandler
 
     /**
      * Configuration that is used by the methods of this class
-     * 
+     *
      * @var array
      */
     protected $_config = [];
 
     /**
      * Reference of the current request object
-     * 
+     *
      * @var Cake\Network\Http\Request
      */
     public $request;
 
     /**
      * Reference of the current response object
-     * 
+     *
      * @var Cake\Network\Http\Response
      */
     public $response;
 
     /**
      * Constructor
-     * 
+     *
      * @param Request $request Current Request
      * @param Response $response Current Response
      * @return void
@@ -47,21 +47,21 @@ class MonitorHandler
 
         $this->request =& $request;
         $this->response =& $response;
-        
+
     }
 
 
 
     /**
      * Validates Config
-     * 
+     *
      * @throws \Exception if configuration is incomplete
      * @return void
      */
     protected function _validateConfig()
     {
         foreach ($this->_config as $key => $value) {
-            if (empty($value)) {
+            if (!isset($value)) {
                 throw new \Exception('Incomplete configuration: ' . $key, 1);
             }
         }
