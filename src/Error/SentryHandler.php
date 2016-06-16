@@ -23,8 +23,8 @@ class SentryHandler
      */
     public function handle(Exception $exception)
     {
-        if (!Configure::read('CakeMonitor.Sentry.enabled')) {
-            return;
+        if (!Configure::read('CakeMonitor.Sentry.enabled') || error_reporting() === 0) {
+            return false;
         }
 
         $client = new \Raven_Client(Configure::read('CakeMonitor.Sentry.dsn'), [
