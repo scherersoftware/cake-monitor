@@ -130,3 +130,19 @@ And modify it to look like this:
     }    
 
 From now on, given that the configuration value `CakeMonitor.Sentry.enabled` is true, Errors and Exceptions are reported to Sentry without changing any of CakePHP's default ErrorHandler behavior.
+
+### Examples
+Loggin an exception into sentry:
+
+    $sentryHandler = new SentryHandler();
+    $sentryHandler->handle($exception);
+
+Logging a message into sentry:
+
+    $sentryHandler = new SentryHandler();
+    $sentryHandler->captureMessage('Error within request.', null, [
+        'extra' => [
+            'result' => $result,
+            'status' => $status
+        ]
+    ]);

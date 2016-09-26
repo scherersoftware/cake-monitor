@@ -51,7 +51,7 @@ class SentryHandler
      * @param null $vars Variables
      * @return bool
      */
-    public function captureMessage($message, $params=array(), $levelOrOptions=array(), $stack=false, $vars = null)
+    public function captureMessage($message, $params = [], $levelOrOptions = [], $stack = false, $vars = null)
     {
         if (!Configure::read('CakeMonitor.Sentry.enabled') || error_reporting() === 0) {
             return false;
