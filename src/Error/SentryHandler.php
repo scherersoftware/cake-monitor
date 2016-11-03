@@ -44,19 +44,19 @@ class SentryHandler
     /**
      * Capture a message via sentry
      *
-     * @param string $message Message to be captured
-     * @param array $params Additional parameters
-     * @param array $levelOrOptions Level or options
+     * @param string $message The message (primary description) for the event.
+     * @param array $params params to use when formatting the message.
+     * @param array $data Additional attributes to pass with this event (see Sentry docs).
      * @param bool $stack Print stack trace
      * @param null $vars Variables
      * @return bool
      */
-    public function captureMessage($message, $params = [], $levelOrOptions = [], $stack = false, $vars = null)
+    public function captureMessage($message, $params = [], $data = [], $stack = false, $vars = null)
     {
         if (!Configure::read('CakeMonitor.Sentry.enabled') || error_reporting() === 0) {
             return false;
         }
 
-        return $this->_ravenClient->captureMessage($message, $params, $levelOrOptions, $stack, $vars);
+        return $this->_ravenClient->captureMessage($message, $params, $data, $stack, $vars);
     }
 }
