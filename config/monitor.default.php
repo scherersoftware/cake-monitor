@@ -12,7 +12,8 @@ return [
         'Sentry' => [
             'enabled' => false,
             'dsn' => null,
-            'sanitizeFields' => []
+            'sanitizeFields' => [],
+            'sanitizeExtraCallback' => null
         ]
     ]
 ];

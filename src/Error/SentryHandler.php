@@ -15,13 +15,23 @@ class SentryHandler
      */
     public function __construct()
     {
-        $this->_ravenClient = new \Raven_Client(Configure::read('CakeMonitor.Sentry.dsn'), [
+        $options = [
+            'processors' => [
+                'Raven_SanitizeDataProcessor'
+            ],
             'processorOptions' => [
                 'Raven_SanitizeDataProcessor' => [
                     'fields_re' => '/(' . implode('|', Configure::read('CakeMonitor.Sentry.sanitizeFields')) . ')/i'
                 ]
             ]
-        ]);
+        ];
+        if (is_callable(Configure::read('CakeMonitor.Sentry.sanitizeExtraCallback'))) {
+            $options['processors'][] = '\Monitor\Lib\SanitizeCallbackDataProcessor';
+            $options['processorOptions']['\Monitor\Lib\SanitizeCallbackDataProcessor'] = [
+                'callback' => Configure::read('CakeMonitor.Sentry.sanitizeExtraCallback')
+            ];
+        }
+        $this->_ravenClient = new \Raven_Client(Configure::read('CakeMonitor.Sentry.dsn'), $options);
     }
 
     /**

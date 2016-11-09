@@ -100,7 +100,13 @@ The `CakeMonitor` configuration section in your `app.php` must contain a `Sentry
             'mysql_password',
             'email_password',
             'cookie'
-        ]
+        ],
+        // Optional callback for special filtering
+        'sanitizeExtraCallback' => function (&$data) {
+            if (isset($data['user']['id'])) {
+                $data['user']['id'] = '*****';
+            }
+        },
     ]
 
 In your `bootstrap.php` you have to tell CakePHP which ErrorHandler to use. Please find the following section:
