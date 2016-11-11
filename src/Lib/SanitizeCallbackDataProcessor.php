@@ -26,7 +26,7 @@ class SanitizeCallbackDataProcessor extends \Raven_Processor
     public function process(&$data)
     {
         if (is_callable($this->_callback)) {
-            ($this->_callback)($data);
+            $this->_callback->__invoke($data);
         }
     }
 }
