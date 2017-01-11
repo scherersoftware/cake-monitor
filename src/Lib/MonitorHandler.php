@@ -108,5 +108,6 @@ class MonitorHandler
             die;
         }
         $this->_config['onSuccess']();
+        die;
     }
 }
