@@ -105,7 +105,7 @@ class MonitorHandler
             foreach ($errors as $error) {
                 echo $error . '<br><br>';
             }
-            return;
+            die;
         }
         $this->_config['onSuccess']();
     }
