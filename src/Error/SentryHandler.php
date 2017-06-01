@@ -3,6 +3,7 @@ namespace Monitor\Error;
 
 use Cake\Core\Configure;
 use Exception;
+use Throwable;
 
 class SentryHandler
 {
@@ -37,10 +38,10 @@ class SentryHandler
     /**
      * Exception Handler
      *
-     * @param Exception $exception Exception to handle
+     * @param Throwable $exception Exception to handle
      * @return void
      */
-    public function handle(Exception $exception)
+    public function handle(Throwable $exception)
     {
         if (!Configure::read('CakeMonitor.Sentry.enabled') || error_reporting() === 0) {
             return false;
