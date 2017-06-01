@@ -36,12 +36,12 @@ class SentryHandler
     }
 
     /**
-     * Exception Handler
+     * Throwable Handler
      *
-     * @param Throwable $exception Exception to handle
+     * @param Throwable $throwable Throwable to handle
      * @return void
      */
-    public function handle(Throwable $exception)
+    public function handle(Throwable $throwable)
     {
         if (!Configure::read('CakeMonitor.Sentry.enabled') || error_reporting() === 0) {
             return false;
@@ -49,7 +49,7 @@ class SentryHandler
 
         $errorHandler = new \Raven_ErrorHandler($this->_ravenClient);
         $errorHandler->registerShutdownFunction();
-        $errorHandler->handleException($exception);
+        $errorHandler->handleException($throwable);
     }
 
     /**
