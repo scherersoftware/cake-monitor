@@ -18,10 +18,10 @@ class SentryHandler
     {
         $options = [
             'processors' => [
-                'Raven_SanitizeDataProcessor'
+                'Raven_Processor_SanitizeDataProcessor'
             ],
             'processorOptions' => [
-                'Raven_SanitizeDataProcessor' => [
+                'Raven_Processor_SanitizeDataProcessor' => [
                     'fields_re' => '/(' . implode('|', Configure::read('CakeMonitor.Sentry.sanitizeFields')) . ')/i'
                 ]
             ]
