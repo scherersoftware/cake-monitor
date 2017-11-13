@@ -13,7 +13,8 @@ return [
             'enabled' => false,
             'dsn' => null,
             'sanitizeFields' => [],
-            'sanitizeExtraCallback' => null
+            'sanitizeExtraCallback' => null,
+            'extraDataCallback' => null
         ]
     ]
 ];
