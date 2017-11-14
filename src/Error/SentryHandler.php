@@ -69,7 +69,7 @@ class SentryHandler
         }
 
         if (is_callable(Configure::read('CakeMonitor.Sentry.extraDataCallback'))) {
-            $data['extra']['extraDataCallback'] = call_user_func_array(Configure::read('CakeMonitor.Sentry.extraDataCallback'), []);
+            $data['extra']['extraDataCallback'] = call_user_func(Configure::read('CakeMonitor.Sentry.extraDataCallback'));
         }
 
         return $this->_ravenClient->captureMessage($message, $params, $data, $stack, $vars);
