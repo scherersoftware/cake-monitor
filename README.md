@@ -108,10 +108,10 @@ The `CakeMonitor` configuration section in your `app.php` must contain a `Sentry
 			}
 		},
 		'extraDataCallback' => function() { # Extra data to send with every Sentry call. Works with SentryHandler::captureMessage() only!
-            if (!empty($_SESSION['Test'])) {
-                return $_SESSION['Test'];
-            }
-        }
+            	if (!empty($_SESSION['Test'])) {
+                		return $_SESSION['Test'];
+            	}
+        	}
 	]
 
 In your `bootstrap.php` you have to tell CakePHP which ErrorHandler to use. Please find the following section:
