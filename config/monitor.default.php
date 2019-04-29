@@ -16,5 +16,19 @@ return [
             'sanitizeExtraCallback' => null,
             'extraDataCallback' => null
         ]
+    ],
+    'ShellMonitor' => [
+        'checks' => [
+            'foo' => [
+                'interval' => 1,
+                'callback' => function() {
+                    return false;
+                }
+            ]
+        ],
+        'dump' => [
+            'interval' => 1,
+            'filePath' => TMP . 'monitor_dump.json'
+        ]
     ]
 ];
