@@ -8,11 +8,13 @@
     },
     "require": {
         "cakephp/plugin-installer": "*",
-        "sentry/sentry": "1.7.*",
         "php": ">=7.0"
     },
     "require-dev": {
         "cakephp/cakephp": "~3.0"
+    },
+    "suggest": {
+        "sentry/sentry": "Needed to use sentry reporting in ErrorHandlerMiddleware and Error\\SentryHandler. Must be version 1.7.* of the SDK!"
     },
     "autoload": {
         "psr-4": {
