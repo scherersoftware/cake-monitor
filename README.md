@@ -1,8 +1,8 @@
-# CakePHP 3 cake-monitor
+# CakePHP 4 cake-monitor
 
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.txt)
 
-A simple config based monitoring plugin for CakePHP 3
+A simple config based monitoring plugin for CakePHP 4
 
 ## Installation
 
@@ -21,6 +21,10 @@ Open a terminal in your project-folder and run these commands:
 	$ composer install
 
 
+### 2. Load the plugin in your `src/Application.php`
+
+    $this->addPlugin('Monitor', ['bootstrap' => true, 'routes' => true]);
+    
 #### 3. Load the plugin in your `config/bootstrap.php`
 
 	Plugin::load('Monitor', ['bootstrap' => true, 'routes' => true]);

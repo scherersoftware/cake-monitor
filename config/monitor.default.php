@@ -4,9 +4,8 @@ return [
         'accessToken' => null,
         'projectName' => null,
         'serverDescription' => 'Server: ' . env('SERVERDESCRIPTION'),
-        'onSuccess' => function() {
+        'onSuccess' => static function(): void {
             echo 'CHECK-OK';
-            return;
         },
         'checks' => [],
         'Sentry' => [

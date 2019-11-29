@@ -1,7 +1,6 @@
 <?php
+declare(strict_types = 1);
 namespace Monitor\Controller;
-
-use Cake\Core\Configure;
 
 class CheckController extends AppController
 {
@@ -10,7 +9,7 @@ class CheckController extends AppController
      *
      * @return void
      */
-    public function check()
+    public function check(): void
     {
     }
 }

@@ -1,17 +1,17 @@
 <?php
+declare(strict_types = 1);
 namespace Monitor\Lib;
 
 use Cake\Core\Configure;
-use Cake\Network\Response;
-use Cake\Network\Request;
-use Cake\Utility\Hash;
+use Cake\Http\Response;
+use Cake\Http\ServerRequest;
+use Exception;
 
 /**
  * Used for processing monitor checks
  */
 class MonitorHandler
 {
-
     /**
      * Configuration that is used by the methods of this class
      *
@@ -22,35 +22,31 @@ class MonitorHandler
     /**
      * Reference of the current request object
      *
-     * @var Cake\Network\Http\Request
+     * @var \Cake\Http\ServerRequest
      */
     public $request;
 
     /**
      * Reference of the current response object
      *
-     * @var Cake\Network\Http\Response
+     * @var \Cake\Http\Response
      */
     public $response;
 
     /**
      * Constructor
      *
-     * @param Request $request Current Request
-     * @param Response $response Current Response
-     * @return void
+     * @param \Cake\Http\ServerRequest $request Current Request
+     * @param \Cake\Http\Response $response Current Response
      */
-    public function __construct(Request &$request, Response &$response)
+    public function __construct(ServerRequest $request, Response $response)
     {
         $this->_config = Configure::read('CakeMonitor');
         $this->_validateConfig();
 
-        $this->request =& $request;
-        $this->response =& $response;
-
+        $this->request = $request;
+        $this->response = $response;
     }
-
-
 
     /**
      * Validates Config
@@ -58,11 +54,11 @@ class MonitorHandler
      * @throws \Exception if configuration is incomplete
      * @return void
      */
-    protected function _validateConfig()
+    protected function _validateConfig(): void
     {
         foreach ($this->_config as $key => $value) {
             if (!isset($value)) {
-                throw new \Exception('Incomplete configuration: ' . $key, 1);
+                throw new Exception('Incomplete configuration: ' . $key, 1);
             }
         }
     }
@@ -72,20 +68,19 @@ class MonitorHandler
      *
      * @return void
      */
-    public function handleAuth()
+    public function handleAuth(): void
     {
-        if ($this->request->header('CAKEMONITORTOKEN') !==  $this->_config['accessToken']) {
+        if ($this->request->getHeader('CAKEMONITORTOKEN') !== $this->_config['accessToken']) {
             die('NOT AUTHENTICATED');
         }
     }
 
-
     /**
      * Handle all defined checks
      *
-     * @return void
+     * @return \Cake\Http\Response
      */
-    public function handleChecks()
+    public function handleChecks(): Response
     {
         $errors = [];
         foreach ($this->_config['checks'] as $name => $check) {
@@ -94,20 +89,21 @@ class MonitorHandler
             }
             $result = $check['callback']();
             if ($result !== true) {
-               $errors[] = $name . ': <br>' . $check['error'] . ' - ' . $result;
+                $errors[] = $name . ': <br>' . $check['error'] . ' - ' . $result;
             }
         }
         if (!empty($errors)) {
+            $this->response = $this->response->withStatus(500);
 
-            $this->response->statusCode(500);
-
-            echo date('Y-m-d H:i:s') . ': ' . $this->_config['projectName'] . ' - ' . $this->_config['serverDescription'] . ' - Status Code: ' . $this->response->statusCode() . '<br><br> ';
+            echo date('Y-m-d H:i:s') . ': ' . $this->_config['projectName'] . ' - ' . $this->_config['serverDescription'] . ' - Status Code: ' . $this->response->getStatusCode() . '<br><br> ';
             foreach ($errors as $error) {
                 echo $error . '<br><br>';
             }
-            die;
+
+            return $this->response;
         }
         $this->_config['onSuccess']();
-        die;
+
+        return $this->response;
     }
 }
