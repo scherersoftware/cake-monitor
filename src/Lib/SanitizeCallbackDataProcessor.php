@@ -15,6 +15,7 @@ class SanitizeCallbackDataProcessor extends Raven_Processor
      * Override the default processor options
      *
      * @param array $options    Associative array of processor options
+     * @return void
      */
     public function setProcessorOptions(array $options): void
     {

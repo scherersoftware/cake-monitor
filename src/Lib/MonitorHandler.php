@@ -95,7 +95,14 @@ class MonitorHandler
         if (!empty($errors)) {
             $this->response = $this->response->withStatus(500);
 
-            echo date('Y-m-d H:i:s') . ': ' . $this->_config['projectName'] . ' - ' . $this->_config['serverDescription'] . ' - Status Code: ' . $this->response->getStatusCode() . '<br><br> ';
+            echo date('Y-m-d H:i:s')
+                . ': '
+                . $this->_config['projectName']
+                . ' - '
+                . $this->_config['serverDescription']
+                . ' - Status Code: '
+                . $this->response->getStatusCode()
+                . '<br><br> ';
             foreach ($errors as $error) {
                 echo $error . '<br><br>';
             }

@@ -68,14 +68,21 @@ class SentryHandler
      * @param array $vars Variables
      * @return bool
      */
-    public function captureMessage(string $message, array $params = [], array $data = [], bool $stack = false, ?array $vars = null): bool
-    {
+    public function captureMessage(
+        string $message,
+        array $params = [],
+        array $data = [],
+        bool $stack = false,
+        ?array $vars = null
+    ): bool {
         if (!Configure::read('CakeMonitor.Sentry.enabled') || error_reporting() === 0) {
             return false;
         }
 
         if (is_callable(Configure::read('CakeMonitor.Sentry.extraDataCallback'))) {
-            $data['extra']['extraDataCallback'] = call_user_func(Configure::read('CakeMonitor.Sentry.extraDataCallback'));
+            $data['extra']['extraDataCallback'] = call_user_func(
+                Configure::read('CakeMonitor.Sentry.extraDataCallback')
+            );
         }
 
         return $this->_ravenClient->captureMessage($message, $params, $data, $stack, $vars) !== null;
