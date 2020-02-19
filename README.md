@@ -83,40 +83,7 @@ If every checking function executes without any exceptions, the `'onSuccess'` ca
 
 Run the current checks and see their output anytime by calling the following URL: `http://YOUR_PROJECT_URL.tld/monitor`
 
-## Sentry Error Reporting
-
-The plugin contains functionality to hook into CakePHP's error reporting and send exceptions to the excellent error reporting service [Sentry](https://getsentry.com/).
-
 ### Configuration
-
-The `CakeMonitor` configuration section in your `app.php` must contain a `Sentry` key
-
-	'Sentry' => [
-		'enabled' => !Configure::read('debug'), # Boolean value to enable sentry error reporting
-		'dsn' => '', # The DSN for the Sentry project. You find this on the Sentry Project Settings Page.
-		'sanitizeFields' => [ # An array of fields, whose values will be removed before sending
-							  # data to sentry. Be sure to include fields like session cookie names, 
-							  # sensitive environment variables and other private configuration.
-			'password',
-			'rememberuser',
-			'auth_token',
-			'api_token',
-			'mysql_password',
-			'email_password',
-			'cookie'
-		],
-		// Optional callback for special filtering
-		'sanitizeExtraCallback' => function (&$data) {
-			if (isset($data['user']['id'])) {
-				$data['user']['id'] = '*****';
-			}
-		},
-		'extraDataCallback' => function() { # Extra data to send with every Sentry call. Works with SentryHandler::captureMessage() only!
-            	if (!empty($_SESSION['Test'])) {
-                		return $_SESSION['Test'];
-            	}
-        	}
-	]
 
 In your `bootstrap.php` you have to tell CakePHP which ErrorHandler to use. Please find the following section:
 
@@ -142,26 +109,10 @@ And modify it to look like this:
 		(new \Monitor\Error\ConsoleErrorHandler(Configure::consume('Error')))->register();
 	} else {
 		(new \Monitor\Error\ErrorHandler(Configure::consume('Error')))->register();
-	}	 
+	}
 
 From now on, given that the configuration value `CakeMonitor.Sentry.enabled` is true, Errors and Exceptions are reported to Sentry without changing any of CakePHP's default ErrorHandler behavior.
 
 If you're using **cake 3.3** and above, you have to use the ErrorHandlerMiddleware provided by this plugin to enable Sentry error tracking.
 
 In you `Application.php` use the `Monitor\Middleware\ErrorHandlerMiddleware` instead of the `Cake\Error\Middleware\ErrorHandlerMiddleware`.
-
-### Examples
-Loggin an exception into sentry:
-
-	$sentryHandler = new SentryHandler();
-	$sentryHandler->handle($exception);
-
-Logging a message into sentry:
-
-	$sentryHandler = new SentryHandler();
-	$sentryHandler->captureMessage('Error within request.', null, [
-		'extra' => [
-			'result' => $result,
-			'status' => $status
-		]
-	]);

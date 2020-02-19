@@ -5,6 +5,7 @@ namespace Monitor\Error;
 use Cake\Error\ConsoleErrorHandler as CoreConsoleErrorHandler;
 use ErrorException;
 use Throwable;
+use function Sentry\captureException;
 
 class ConsoleErrorHandler extends CoreConsoleErrorHandler
 {
@@ -18,9 +19,8 @@ class ConsoleErrorHandler extends CoreConsoleErrorHandler
         ?int $line = null,
         ?array $context = null
     ): bool {
-        $exception = new ErrorException($description, 0, $code, $file, $line);
-        $sentryHandler = new SentryHandler();
-        $sentryHandler->handle($exception);
+        $exception = new ErrorException($description, $code, 1, $file, $line);
+        captureException($exception);
 
         return parent::handleError($code, $description, $file, $line, $context);
     }
@@ -30,8 +30,7 @@ class ConsoleErrorHandler extends CoreConsoleErrorHandler
      */
     public function handleException(Throwable $exception): void
     {
-        $sentryHandler = new SentryHandler();
-        $sentryHandler->handle($exception);
+        captureException($exception);
 
         parent::handleException($exception);
     }
