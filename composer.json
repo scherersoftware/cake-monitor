@@ -9,7 +9,7 @@
   "require": {
     "php": ">=7.2",
     "cakephp/cakephp": ">=3.8",
-    "sentry/sdk": "2.1.0"
+    "sentry/sdk": "3.*"
   },
   "require-dev": {
     "phpstan/phpstan": "^0.11",
