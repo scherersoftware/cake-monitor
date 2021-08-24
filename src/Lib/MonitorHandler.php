@@ -70,7 +70,7 @@ class MonitorHandler
      */
     public function handleAuth(): void
     {
-        if ($this->request->getHeader('CAKEMONITORTOKEN') !== $this->_config['accessToken']) {
+        if ($this->request->getHeaderLine('CAKEMONITORTOKEN') !== $this->_config['accessToken']) {
             die('NOT AUTHENTICATED');
         }
     }
